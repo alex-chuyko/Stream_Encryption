@@ -1,0 +1,89 @@
+object Form2: TForm2
+  Left = 1415
+  Top = 131
+  Width = 430
+  Height = 302
+  Caption = 'Form2'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lbl1: TLabel
+    Left = 8
+    Top = 40
+    Width = 15
+    Height = 12
+    Caption = 'lbl1'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = 12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object lbl2: TLabel
+    Left = 8
+    Top = 88
+    Width = 15
+    Height = 12
+    Caption = 'lbl1'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = 12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object lbl4: TLabel
+    Left = 360
+    Top = 8
+    Width = 35
+    Height = 24
+    Caption = 'RC4'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object mmo1: TMemo
+    Left = 8
+    Top = 112
+    Width = 185
+    Height = 89
+    TabOrder = 0
+  end
+  object btn1: TButton
+    Left = 8
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Text'
+    TabOrder = 1
+    OnClick = btn1Click
+  end
+  object btn2: TButton
+    Left = 8
+    Top = 56
+    Width = 75
+    Height = 25
+    Caption = 'Key'
+    TabOrder = 2
+    OnClick = btn2Click
+  end
+  object btn3: TButton
+    Left = 8
+    Top = 208
+    Width = 75
+    Height = 25
+    Caption = 'Run'
+    TabOrder = 3
+    OnClick = btn3Click
+  end
+end
