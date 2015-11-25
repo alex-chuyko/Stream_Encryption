@@ -2,7 +2,7 @@ object Form2: TForm2
   Left = 1415
   Top = 131
   Width = 430
-  Height = 302
+  Height = 214
   Caption = 'Form2'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -52,20 +52,13 @@ object Form2: TForm2
     Font.Style = []
     ParentFont = False
   end
-  object mmo1: TMemo
-    Left = 8
-    Top = 112
-    Width = 185
-    Height = 89
-    TabOrder = 0
-  end
   object btn1: TButton
     Left = 8
     Top = 8
     Width = 75
     Height = 25
     Caption = 'Text'
-    TabOrder = 1
+    TabOrder = 0
     OnClick = btn1Click
   end
   object btn2: TButton
@@ -74,16 +67,16 @@ object Form2: TForm2
     Width = 75
     Height = 25
     Caption = 'Key'
-    TabOrder = 2
+    TabOrder = 1
     OnClick = btn2Click
   end
   object btn3: TButton
     Left = 8
-    Top = 208
+    Top = 128
     Width = 75
     Height = 25
     Caption = 'Run'
-    TabOrder = 3
+    TabOrder = 2
     OnClick = btn3Click
   end
 end

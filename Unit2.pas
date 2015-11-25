@@ -11,7 +11,6 @@ type
     lbl1: TLabel;
     lbl2: TLabel;
     lbl4: TLabel;
-    mmo1: TMemo;
     btn1: TButton;
     btn2: TButton;
     btn3: TButton;
@@ -30,7 +29,7 @@ type
 
 var
   Form2: TForm2;
-  flagText, flagKey : boolean;
+  flagText, flagKey : Boolean;
   FileNameText, FileNameKey, OutputFileName, OutputKeyFileName: string;
 
 implementation
@@ -43,7 +42,6 @@ procedure TForm2.btn1Click(Sender: TObject);
 var
   openDialog : TOpenDialog;
 begin
-  mmo1.Clear;
   flagText:= True;
   openDialog := TOpenDialog.Create(openDialog);
   openDialog.Title:= 'Выберите файл для открытия';
@@ -69,7 +67,6 @@ procedure TForm2.btn2Click(Sender: TObject);
 var
   openDialog: TOpenDialog;
 begin
-  mmo1.Clear;
   flagKey:= True;
   openDialog := TOpenDialog.Create(openDialog);
   openDialog.Title:= 'Выберите файл для открытия';
@@ -124,47 +121,49 @@ begin
 
     inc(counter);
 
-    for i:= 0 to 255 do
-      s[i] := i;
-
-    j := 0;
-    for i:= 0 to 255 do
+    if counter <> 0 then
     begin
-      j := (j + s[i] + key[i mod counter]) mod 256;
-      temp := s[i];
-      s[i] := s[j];
-      s[j] := temp;
-    end;
+      for i:= 0 to 255 do
+        s[i] := i;
 
-    i := 0;
-    j := 0;
-    temp := 0;
-    OutputKeyFileName := FileNameText + '.keyRC4';
-    AssignFile(output, OutputKeyFileName);
-    rewrite(output);
-    for l:= 0 to counterText do
-    begin
-      i := (i + 1) mod 256;
-      j := (j + s[i]) mod 256;
-      temp := s[i];
-      s[i] := s[j];
-      s[j] := temp;
-      k[l] := s[(s[i] + s[j]) mod 256];
-      write(chr(k[l]));
-      //mmo1.Text := mmo1.Text + IntToStr(k[l]) + ' ';
-    end;
-    mmo1.Text := mmo1.Text + IntToStr(l);
-    CloseFile(output);
-    //mmo1.Text := mmo1.Text + #13#10;
+      j := 0;
+      for i:= 0 to 255 do
+      begin
+        j := (j + s[i] + key[i mod counter]) mod 256;
+        temp := s[i];
+        s[i] := s[j];
+        s[j] := temp;
+      end;
 
-    OutputFileName := FileNameText + '.RC4';
-    AssignFile(output, OutputFileName);
-    rewrite(output);
-    for i:= 0 to counterText do
-    begin
-      write(chr(k[i] xor text[i]));
-    end;
-    CloseFile(output);
+      i := 0;
+      j := 0;
+      temp := 0;
+      OutputKeyFileName := FileNameText + '.keyRC4';
+      AssignFile(output, OutputKeyFileName);
+      rewrite(output);
+      for l:= 0 to counterText do
+      begin
+        i := (i + 1) mod 256;
+        j := (j + s[i]) mod 256;
+        temp := s[i];
+        s[i] := s[j];
+        s[j] := temp;
+        k[l] := s[(s[i] + s[j]) mod 256];
+        write(k[l], ' ');
+      end;
+      CloseFile(output);;
+
+      OutputFileName := FileNameText + '.RC4';
+      AssignFile(output, OutputFileName);
+      rewrite(output);
+      for i:= 0 to counterText do
+      begin
+        write(chr(k[i] xor text[i]));
+      end;
+      CloseFile(output);
+    end
+    else
+      ShowMessage('Файл с ключом пуст!');
   end;
 end;
 ///////////////////////////// RC4 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

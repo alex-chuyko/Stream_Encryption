@@ -20,6 +20,8 @@ type
     edt3: TEdit;
     procedure btn5Click(Sender: TObject);
     procedure btn7Click(Sender: TObject);
+    procedure edt1KeyPress(Sender: TObject; var Key: Char);
+    procedure edt1Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,7 +36,7 @@ type
 var
   Form4: TForm4;
   flagText, flagKey : boolean;
-  FileNameText, FileNameKey, OutputFileName, OutputKeyFileName: string;
+  FileNameText, OutputFileName, OutputKeyFileName: string;
   arr : array[23..40] of arrByte = ((1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),  //23
                                     (1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),  //24
                                     (1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),  //25
@@ -144,7 +146,7 @@ var
   k1, k2, k3, k : byte;
   n1, n2, n3, counterText, i, j : integer;
   arr1, arr2, arr3 : arrByte;
-  text, c : myArr; ///xG = (x1 and x2) or (not x1 and x3)
+  text, c : myArr;
   arrKey1, arrKey2, arrKey3 : mArr;
   F_text : file of byte;
 begin
@@ -184,23 +186,35 @@ begin
     arr2 := opr(n2);
     arr3 := opr(n3);
 
+    AssignFile(output, FileNameText + '.binInputText');
+    rewrite(output);
+    for i:= 0 to counterText do
+      write(IntToBin(text[i]), ' ');
+    CloseFile(output);
+
     OutputKeyFileName := FileNameText + '.keyGeffe';
     AssignFile(output, OutputKeyFileName);
     rewrite(output);
+    AssignFile(input, 'LFSR1_3.bin');
+    Rewrite(input);
     for i:= 0 to counterText do
     begin
       k := 0;
       for j:=1 to 8 do
       begin
         k1 := generKey(arrKey1, n1, arr1);
+        write(input, k1, ' ');
         k2 := generKey(arrKey2, n2, arr2);
+        write(input, k2, ' ');
         k3 := generKey(arrKey3, n3, arr3);
+        writeln(input, k3);
         k := k shl 1 + ((k1 and k2) or (not k1 and k3));
       end;
-      //write(chr(k));
-      write(k, ' ');
+      writeln(input);
+      write(IntToBin(k), ' ');
       c[i] := text[i] xor k;
     end;
+    CloseFile(input);
     CloseFile(output);
 
     OutputFileName := FileNameText + '.geffe';
@@ -208,13 +222,30 @@ begin
     rewrite(output);
     for i:= 0 to counterText do
       write(chr(c[i]));
-    //writeln;
-    //for i:= 0 to counterText do
-      //write(IntToBin(c[i]), ' ');
+    CloseFile(output);
+
+    AssignFile(output, OutputFileName + '.geffeBinOutputText');
+    rewrite(output);
+    for i:= 0 to counterText do
+      write(IntToBin(c[i]), ' ');
     CloseFile(output);
   end;
 end;
 
 /////////////////////////// GEFFE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+procedure TForm4.edt1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if (not (key in ['0', '1'])) and (not (key = #8)) then
+    key := chr(0);
+end;
+
+procedure TForm4.edt1Change(Sender: TObject);
+begin
+  if (length(edt1.Text) = edt1.MaxLength) and (length(edt2.Text) = edt2.MaxLength) and (length(edt3.Text) = edt3.MaxLength) then
+    btn7.Enabled := true
+  else
+    btn7.Enabled := false;
+end;
 
 end.

@@ -93,6 +93,7 @@ object Form4: TForm4
     Width = 75
     Height = 25
     Caption = 'Run'
+    Enabled = False
     TabOrder = 1
     OnClick = btn7Click
   end
@@ -101,20 +102,29 @@ object Form4: TForm4
     Top = 56
     Width = 313
     Height = 21
+    MaxLength = 27
     TabOrder = 2
+    OnChange = edt1Change
+    OnKeyPress = edt1KeyPress
   end
   object edt2: TEdit
     Left = 69
     Top = 88
     Width = 313
     Height = 21
+    MaxLength = 35
     TabOrder = 3
+    OnChange = edt1Change
+    OnKeyPress = edt1KeyPress
   end
   object edt3: TEdit
     Left = 69
     Top = 120
     Width = 313
     Height = 21
+    MaxLength = 25
     TabOrder = 4
+    OnChange = edt1Change
+    OnKeyPress = edt1KeyPress
   end
 end

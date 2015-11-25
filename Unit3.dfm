@@ -39,20 +39,13 @@ object Form3: TForm3
     Font.Style = []
     ParentFont = False
   end
-  object mmo2: TMemo
-    Left = 8
-    Top = 127
-    Width = 185
-    Height = 58
-    TabOrder = 0
-  end
   object btn4: TButton
     Left = 8
     Top = 7
     Width = 75
     Height = 25
     Caption = 'Text'
-    TabOrder = 1
+    TabOrder = 0
     OnClick = btn4Click
   end
   object btn6: TButton
@@ -61,14 +54,18 @@ object Form3: TForm3
     Width = 75
     Height = 25
     Caption = 'Run'
-    TabOrder = 2
+    Enabled = False
+    TabOrder = 1
     OnClick = btn6Click
   end
-  object mmo1: TMemo
+  object edt1: TEdit
     Left = 8
     Top = 64
-    Width = 185
-    Height = 57
-    TabOrder = 3
+    Width = 321
+    Height = 21
+    MaxLength = 27
+    TabOrder = 2
+    OnChange = edt1Change
+    OnKeyPress = edt1KeyPress
   end
 end

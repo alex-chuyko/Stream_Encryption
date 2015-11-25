@@ -10,12 +10,13 @@ type
   TForm3 = class(TForm)
     lbl3: TLabel;
     lbl5: TLabel;
-    mmo2: TMemo;
     btn4: TButton;
     btn6: TButton;
-    mmo1: TMemo;
+    edt1: TEdit;
     procedure btn4Click(Sender: TObject);
     procedure btn6Click(Sender: TObject);
+    procedure edt1KeyPress(Sender: TObject; var Key: Char);
+    procedure edt1Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -57,7 +58,6 @@ procedure TForm3.btn4Click(Sender: TObject);
 var
   openDialog : TOpenDialog;
 begin
-  mmo2.Clear;
   flagText:= True;
   openDialog := TOpenDialog.Create(openDialog);
   openDialog.Title:= 'Выберите файл для открытия';
@@ -120,11 +120,11 @@ var
   n, i, j, l, counterText : integer;
   arr1 : arrByte;
   text, c : array [0..100000] of byte;
-  arrKey : array[0..22] of byte;
+  arrKey : array[0..26] of byte;
   F_text : file of byte;
 begin
-  key := mmo2.Text;
-  n := 23;
+  key := edt1.Text;
+  n := 27;
   counterText := -1;
 
   arr1 := opr(n);
@@ -145,8 +145,14 @@ begin
       arrKey[i-1] := StrToInt(key[i]);
     end;
 
+    AssignFile(output, FileNameText + '.binInputText');
+    rewrite(output);
+    for i:= 0 to counterText do
+      write(IntToBin(text[i]), ' ');
+    CloseFile(output);
+
 ///////////////////////// generation key
-    OutputKeyFileName := FileNameText + '.key';
+    OutputKeyFileName := FileNameText + '.keyBin';
     AssignFile(output, OutputKeyFileName);
     rewrite(output);
     for i:= 0 to counterText do
@@ -168,7 +174,7 @@ begin
         arrKey[n-2] := temp;
        end;
        c[i] := text[i] xor k;
-       write(chr(k));
+       write(IntToBin(k), ' ');
     end;
     CloseFile(output);
 ////////////////////////////////////////
@@ -182,14 +188,30 @@ begin
     rewrite(output);
     for i:= 0 to counterText do
       write(chr(c[i]));
-    //writeln;
-    //for i:=0 to counterText do
-      //write(IntToBin(c[i]), ' ');
+    CloseFile(output);
+    AssignFile(output, OutputFileName + '.binOutputText');
+    rewrite(output);
+    for i:=0 to counterText do
+      write(IntToBin(c[i]), ' ');
     CloseFile(output);
   end;
 end;
 
 /////////////////////////// LFSR1 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+
+procedure TForm3.edt1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if (not (key in ['0', '1'])) and (not (key = #8)) then
+    key := chr(0);
+end;
+
+procedure TForm3.edt1Change(Sender: TObject);
+begin
+  if (length(edt1.Text) = edt1.MaxLength) then
+    btn6.Enabled := true
+  else
+    btn6.Enabled := false;
+end;
 
 end.
